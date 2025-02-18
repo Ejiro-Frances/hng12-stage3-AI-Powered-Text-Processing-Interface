@@ -11,10 +11,35 @@ html {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
   min-height: 100vh;
   width: 100%;
   font-size: 1.6rem;
+  line-height: 1.5;
+  background: grey;
+}
+
+.main {
+  width: 90%;
+  max-width: 140rem;
+  min-height: 90vh;
+  margin: 2rem auto;
+  background: #fefefe;
+  display: grid;
+  grid-template-columns: 1fr;
+  /* justify-items: center; */
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.input-container,
+.output-container {
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 1.3rem;
+  padding: 1rem;
+  margin: 1rem;
 }

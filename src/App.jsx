@@ -1,8 +1,10 @@
+import TextInput from "./components/TextInput";
+
 const App = () => {
   return (
-    <div>
-      <textarea className="textarea"></textarea>
-    </div>
+    <main className="main">
+      <TextInput />
+    </main>
   );
 };
 
