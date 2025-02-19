@@ -12,46 +12,78 @@ const TextProcessor = () => {
     setInputText(event.target.value);
   };
 
-  // Function to create a new message div when button is clicked
-  const handleClick = () => {
-    if (inputText.trim() === "") return; // Prevent adding empty messages
+  const handleProcessText = async () => {
+    if (inputText.trim() === "") return;
 
-    setMessages((prevMessages) => [...prevMessages, inputText]); // Add new message to array
+    const languageDetectorCapabilities =
+      await self.ai.languageDetector.capabilities();
+    const canDetect = languageDetectorCapabilities.capabilities;
+    let detector;
+
+    if (canDetect === "no") {
+      console.error("Language detection is not available.");
+      return;
+    }
+
+    if (canDetect === "readily") {
+      detector = await self.ai.languageDetector.create();
+    } else {
+      detector = await self.ai.languageDetector.create({
+        monitor(m) {
+          m.addEventListener("downloadprogress", (e) => {
+            console.log(`Downloaded ${e.loaded} of ${e.total} bytes.`);
+          });
+        },
+      });
+      await detector.ready;
+    }
+
+    // Detect the language
+    const results = await detector.detect(inputText);
+    const detectedLanguage =
+      results.length > 0 ? results[0].detectedLanguage : "Unknown";
+
+    // Add new message with detected language (Fixed state update)
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text: inputText, language: detectedLanguage },
+    ]);
+
     setInputText(""); // Clear input field after submission
-    // setLoading(false);
   };
 
   // Function to handle Enter key press
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault(); // Prevents new line in textarea
-      handleClick(); // Calls the submit function
+      handleProcessText();
     }
   };
 
   return (
     <section>
+      {/* Output Messages */}
       <div>
         {messages.map((message, index) => (
-          <div key={index}>
-            <div className="message-output">
-              <p>{message}</p>
-            </div>
-            {/* <button>Detected Language: {message.language}</button> */}
+          <div key={index} className="message-output">
+            <p>{message.text}</p>
+            <p>Detected Language: {message.language.toUpperCase()}</p>
           </div>
         ))}
       </div>
 
+      {/* Input Section */}
       <div className="input-container">
         <textarea
           className="message-input text-input"
-          placeholder="Enter your message here.."
+          placeholder="Enter your message here..."
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           value={inputText}
         ></textarea>
+
         {/* Button to submit text */}
-        <button onClick={handleClick}>
+        <button onClick={handleProcessText}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="#000000"
