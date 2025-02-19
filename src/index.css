@@ -42,6 +42,7 @@ body {
   border-radius: 1.3rem;
   padding: 1rem;
   margin: 1rem;
+  text-align: left;
 }
 button {
   cursor: pointer;
