@@ -210,7 +210,7 @@ const TextProcessor = () => {
   // Process text (detect language & store)
   const handleProcessText = async () => {
     if (inputText.trim() === "") {
-      setErrorMessage("Please enter some text.");
+      setErrorMessage("Please enter text.");
       return;
     }
 
@@ -233,7 +233,7 @@ const TextProcessor = () => {
     setCharCount(0);
   };
 
-  // ✅ Handle Enter key press
+  // Handle Enter key press
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       event.preventDefault();
@@ -241,7 +241,7 @@ const TextProcessor = () => {
     }
   };
 
-  // ✅ Handle translation button click
+  // Handle translation button click
   const handleTranslateButtonClick = async (message, index) => {
     if (!message || !message.text) {
       console.error("Invalid message object:", message);
@@ -269,9 +269,7 @@ const TextProcessor = () => {
 
   return (
     <section>
-      {!isSupported && (
-        <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
-      )}
+      {!isSupported && <p className="error-message">{errorMessage}</p>}
 
       <div className="output-container">
         {messages.map((message, index) => (
@@ -320,7 +318,7 @@ const TextProcessor = () => {
               )}
             </div>
             {/* first div ends here */}
-            {/* next */}
+            {/* second begins here */}
             <div className="output-second-box">
               <p className="sum-check">
                 {Object.entries(message.translations).map(
@@ -346,6 +344,9 @@ const TextProcessor = () => {
           </div>
         ))}
       </div>
+
+      {/* Error message */}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
 
       {/* Input container */}
       <div className="input-container">
