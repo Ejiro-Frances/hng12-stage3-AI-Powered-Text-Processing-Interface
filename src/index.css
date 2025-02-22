@@ -156,6 +156,8 @@ body {
   transform: translateY(30%);
 }
 .warning-message {
+  position: relative;
+  top: 0;
   color: red;
   font-weight: bold;
   background: #ffe0e0;
