@@ -11,10 +11,61 @@ html {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+
   font-size: 1.6rem;
   line-height: 1.5;
   background: #001f3f;
   color: #fff;
   text-align: center;
+}
+.main {
+  width: 90%;
+  max-width: 140rem;
+  min-height: 90vh;
+  margin: 2rem auto;
+  /* background: #fefefe; */
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: flex-end;
+  gap: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.input-container {
+  display: grid;
+  grid-template-columns: 95fr 2fr 3fr;
+  align-items: center;
+  position: relative;
+}
+.message-input,
+.message-output {
+  /* display: relative; */
+  border: 1px solid black;
+  border-radius: 1.3rem;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: left;
+}
+
+.char-count {
+  display: absolute;
+  font-size: 1.2rem;
+  color: #000;
+  transform: translate(-180%, 1%);
+}
+
+.send-btn {
+  background: none;
+}
+.spinner {
+  font-weight: bold;
+  color: #007bff;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
 }

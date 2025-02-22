@@ -288,7 +288,7 @@ const TextProcessor = () => {
         <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
       )}
 
-      <div>
+      <div className="">
         {messages.map((message, index) => (
           <div key={index} className="message-output">
             <p>{message.text}</p>
@@ -351,15 +351,35 @@ const TextProcessor = () => {
           </div>
         ))}
       </div>
+      <div className="input-container">
+        <textarea
+          className="message-input"
+          value={inputText}
+          onChange={handleTextChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter text here..."
+        ></textarea>
+        <span className="char-count"> {charCount}</span>
 
-      <textarea
-        value={inputText}
-        onChange={handleTextChange}
-        onKeyDown={handleKeyDown}
-        placeholder="Enter text..."
-      />
-      <p>Character Count: {charCount}</p>
-      <button onClick={handleProcessText}>Detect Language</button>
+        <button className="send-btn" onClick={handleProcessText}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="#fff"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="#000"
+            className="size-6"
+            width="24px"
+            height="24px"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5"
+            />
+          </svg>
+        </button>
+      </div>
     </section>
   );
 };
