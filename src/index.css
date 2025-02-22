@@ -114,7 +114,7 @@ body {
   align-self: center;
 }
 .language-select {
-  background: transparent;
+  background: #001f3f;
   font-size: 1.2rem;
   color: #fefefe;
   padding: 0;
@@ -125,7 +125,7 @@ body {
 
 .spinner {
   font-weight: bold;
-  color: #042447;
+  color: #9fa7b1;
   animation: blink 1s infinite;
 }
 
