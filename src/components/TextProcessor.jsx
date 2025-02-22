@@ -23,20 +23,6 @@ const TextProcessor = () => {
     ru: "Russian",
     tr: "Turkish",
     fr: "French",
-    // de: "German",
-    // it: "Italian",
-    // zh: "Chinese",
-    // ja: "Japanese",
-    // ko: "Korean",
-    // ar: "Arabic",
-    // hi: "Hindi",
-    // nl: "Dutch",
-    // sv: "Swedish",
-    // pl: "Polish",
-    // el: "Greek",
-    // he: "Hebrew",
-    // th: "Thai",
-    // vi: "Vietnamese",
   };
 
   // Effect to initialize AI APIs
@@ -153,7 +139,6 @@ const TextProcessor = () => {
         setDetectedLanguage(detectedCode); // Stores detected language in state
         return {
           code: detectedCode,
-          confidence: (results[0].confidence * 100).toFixed(2),
         };
       }
     } catch (error) {
@@ -342,7 +327,7 @@ const TextProcessor = () => {
                   ([lang, translation]) => (
                     <p key={lang}>
                       <span className="title">
-                        Translation ({languageMap[lang] || lang}):
+                        {languageMap[lang] || lang}:
                       </span>
                       {translation}
                     </p>
@@ -350,7 +335,7 @@ const TextProcessor = () => {
                 )}
                 {message.summary && (
                   <p>
-                    <span className="title">Summary:</span>{" "}
+                    <span className="title">Summary:</span>
                     {message.summary.split("\n").map((line, i) => (
                       <p key={i}>{line}</p>
                     ))}

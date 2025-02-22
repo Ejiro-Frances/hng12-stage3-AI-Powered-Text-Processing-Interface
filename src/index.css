@@ -72,7 +72,8 @@ body {
 .message-output-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.4rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 .message-output {
   grid-column: 2;
@@ -103,9 +104,24 @@ body {
   color: #fefefe;
 }
 .title {
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: 800;
   display: block;
-  color: #0c1b2b;
-  margin-bottom: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .message-output-container {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+  .message-output {
+    grid-column: 1;
+    max-width: 60%;
+    justify-self: flex-end;
+  }
+  .output-second-box {
+    max-width: 60%;
+  }
 }
