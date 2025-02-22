@@ -10,7 +10,7 @@ const TextProcessor = () => {
   const [detectedLanguage, setDetectedLanguage] = useState(""); // Stores detected language
 
   const [translator, setTranslator] = useState(null); // Translator instance
-  const [targetLanguage, setTargetLanguage] = useState("es"); // Default target language
+  const [targetLanguage, setTargetLanguage] = useState(""); // Default target language
 
   const [summarizer, setSummarizer] = useState(null);
   const [charCount, setCharCount] = useState(0); //To count the characters
@@ -18,25 +18,25 @@ const TextProcessor = () => {
   // Language code to full name mapping
   const languageMap = {
     en: "English",
-    es: "Spanish",
-    fr: "French",
-    de: "German",
-    it: "Italian",
     pt: "Portuguese",
-    zh: "Chinese",
-    ja: "Japanese",
-    ko: "Korean",
+    es: "Spanish",
     ru: "Russian",
-    ar: "Arabic",
-    hi: "Hindi",
-    nl: "Dutch",
-    sv: "Swedish",
     tr: "Turkish",
-    pl: "Polish",
-    el: "Greek",
-    he: "Hebrew",
-    th: "Thai",
-    vi: "Vietnamese",
+    fr: "French",
+    // de: "German",
+    // it: "Italian",
+    // zh: "Chinese",
+    // ja: "Japanese",
+    // ko: "Korean",
+    // ar: "Arabic",
+    // hi: "Hindi",
+    // nl: "Dutch",
+    // sv: "Swedish",
+    // pl: "Polish",
+    // el: "Greek",
+    // he: "Hebrew",
+    // th: "Thai",
+    // vi: "Vietnamese",
   };
 
   // Effect to initialize AI APIs
@@ -288,69 +288,81 @@ const TextProcessor = () => {
         <p style={{ color: "red", fontWeight: "bold" }}>{errorMessage}</p>
       )}
 
-      <div className="">
+      <div className="output-container">
         {messages.map((message, index) => (
-          <div key={index} className="message-output">
-            <p>{message.text}</p>
-            <p>
-              {`Detected Language: I am ${message.confidence}% sure this is ${message.detectedLanguage}`}
-            </p>
+          <div key={index} className="message-output-container">
+            <div className="message-output">
+              <p>{message.text}</p>
+              <span className="language">{message.detectedLanguage}</span>
+              <div className="btn-div">
+                <select
+                  value={targetLanguage}
+                  onChange={(e) => setTargetLanguage(e.target.value)}
+                >
+                  <option value="">Select Language</option>
+                  {Object.entries(languageMap).map(([code, name]) => (
+                    <option key={code} value={code}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
 
-            <div>
-              <select
-                value={targetLanguage}
-                onChange={(e) => setTargetLanguage(e.target.value)}
-              >
-                <option value="">Select Language</option>
-                {Object.entries(languageMap).map(([code, name]) => (
-                  <option key={code} value={code}>
-                    {name}
-                  </option>
-                ))}
-              </select>
+                <button
+                  className="btn"
+                  onClick={() => handleTranslateButtonClick(message, index)}
+                >
+                  Translate
+                </button>
+                {/* Show the "Summarize" button only if the text is 150+ characters and in English */}
+                {message.text.length >= 150 &&
+                  message.detectedLanguage === "English" && (
+                    <button
+                      className="btn"
+                      onClick={() => summarizeText(message.text, index)}
+                      disabled={message.isSummarizing || message.summary}
+                    >
+                      {message.isSummarizing
+                        ? "Summarizing..."
+                        : message.summary
+                        ? "Summarized"
+                        : "Summarize"}
+                    </button>
+                  )}
+              </div>
 
-              <button
-                onClick={() => handleTranslateButtonClick(message, index)}
-              >
-                Translate
-              </button>
-              {/* Show the "Summarize" button only if the text is 150+ characters and in English */}
-              {message.text.length >= 150 &&
-                message.detectedLanguage === "English" && (
-                  <button
-                    onClick={() => summarizeText(message.text, index)}
-                    disabled={message.isSummarizing || message.summary}
-                  >
-                    {message.isSummarizing
-                      ? "Summarizing..."
-                      : message.summary
-                      ? "Summarized"
-                      : "Summarize"}
-                  </button>
-                )}
+              {message.isSummarizing && (
+                <p className="spinner">⏳ Summarizing...</p>
+              )}
             </div>
-
-            {message.isSummarizing && (
-              <p className="spinner">⏳ Summarizing...</p>
-            )}
-
-            {Object.entries(message.translations).map(([lang, translation]) => (
-              <p key={lang}>
-                <strong>Translation ({languageMap[lang] || lang}):</strong>
-                {translation}
+            {/* first div ends here */}
+            {/* next */}
+            <div className="output-second-box">
+              <p className="sum-check">
+                {Object.entries(message.translations).map(
+                  ([lang, translation]) => (
+                    <p key={lang}>
+                      <span className="title">
+                        Translation ({languageMap[lang] || lang}):
+                      </span>
+                      {translation}
+                    </p>
+                  )
+                )}
+                {message.summary && (
+                  <p>
+                    <span className="title">Summary:</span>{" "}
+                    {message.summary.split("\n").map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
+                  </p>
+                )}
               </p>
-            ))}
-            {message.summary && (
-              <p>
-                <strong>Summary:</strong>{" "}
-                {message.summary.split("\n").map((line, i) => (
-                  <p key={i}>{line}</p>
-                ))}
-              </p>
-            )}
+            </div>
           </div>
         ))}
       </div>
+
+      {/* Input container */}
       <div className="input-container">
         <textarea
           className="message-input"

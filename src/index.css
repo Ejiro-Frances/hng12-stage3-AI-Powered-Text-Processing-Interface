@@ -11,48 +11,40 @@ html {
 }
 
 body {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-
+  font-family: "Franklin Gothic Medium", "Arial Narrow";
   font-size: 1.6rem;
   line-height: 1.5;
   background: #001f3f;
   color: #fff;
-  text-align: center;
 }
+
 .main {
   width: 90%;
   max-width: 140rem;
-  min-height: 90vh;
+  min-height: 95vh;
   margin: 2rem auto;
-  /* background: #fefefe; */
   display: grid;
-  grid-template-columns: 1fr;
   align-items: flex-end;
-  gap: 2rem;
   padding: 1rem;
-  border-radius: 1rem;
 }
+
 .input-container {
   display: grid;
   grid-template-columns: 95fr 2fr 3fr;
   align-items: center;
-  position: relative;
 }
-.message-input,
-.message-output {
-  /* display: relative; */
-  border: 1px solid black;
+
+.message-input {
+  margin-top: 2rem;
   border-radius: 1.3rem;
-  padding: 1rem;
-  margin: 1rem;
-  text-align: left;
+  padding: 2rem;
 }
 
 .char-count {
   display: absolute;
-  font-size: 1.2rem;
-  color: #000;
-  transform: translate(-180%, 1%);
+  font-size: 1.1rem;
+  color: #001f3f;
+  transform: translate(-180%, -105%);
 }
 
 .send-btn {
@@ -60,7 +52,7 @@ body {
 }
 .spinner {
   font-weight: bold;
-  color: #007bff;
+  color: #042447;
   animation: blink 1s infinite;
 }
 
@@ -68,4 +60,52 @@ body {
   50% {
     opacity: 0.5;
   }
+}
+
+.language {
+  background: #042447;
+  font-size: 1.4rem;
+  padding: 4px;
+  border-radius: 5px;
+  margin: 0.6rem 0;
+}
+.message-output-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+.message-output {
+  grid-column: 2;
+  background: #1d4570;
+  padding: 1.5rem;
+  border-radius: 1.3rem;
+}
+.output-second-box {
+  background: #1d4570;
+  padding: 1.5rem;
+  border-radius: 1.3rem;
+}
+.btn-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 1rem;
+}
+
+.btn {
+  cursor: pointer;
+  background: #fefefe;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+.btn:hover {
+  background: #1d4570;
+  color: #fefefe;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  display: block;
+  color: #0c1b2b;
+  margin-bottom: 1rem;
 }
