@@ -15,6 +15,8 @@ const TextProcessor = () => {
   const [summarizer, setSummarizer] = useState(null);
   const [charCount, setCharCount] = useState(0); //To count the characters
 
+  const [warningMessage, setWarningMessage] = useState(""); //device warning
+
   // Language code to full name mapping
   const languageMap = {
     en: "English",
@@ -24,6 +26,18 @@ const TextProcessor = () => {
     tr: "Turkish",
     fr: "French",
   };
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|iphone|ipad|ipod/i.test(userAgent);
+    const isChrome = /chrome/i.test(userAgent) && !/edg/i.test(userAgent); // Exclude Edge browser
+
+    if (isMobile || !isChrome) {
+      setWarningMessage(
+        "For the best experience, please use a laptop with Google Chrome."
+      );
+    }
+  }, []);
 
   // Effect to initialize AI APIs
   useEffect(() => {
@@ -269,6 +283,7 @@ const TextProcessor = () => {
 
   return (
     <section>
+      {warningMessage && <p className="warning-message">{warningMessage}</p>}
       {!isSupported && <p className="error-message">{errorMessage}</p>}
 
       <div className="output-container">
