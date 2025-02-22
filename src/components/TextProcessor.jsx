@@ -9,7 +9,7 @@ const TextProcessor = () => {
   const [detector, setDetector] = useState(null); // Language detector
   const [detectedLanguage, setDetectedLanguage] = useState(""); // Stores detected language
 
-  const [translator, setTranslator] = useState(null); // Translator instance
+  const [translator, setTranslator] = useState(""); // Translator instance
   const [targetLanguage, setTargetLanguage] = useState(""); // Default target language
 
   const [summarizer, setSummarizer] = useState(null);
@@ -230,7 +230,7 @@ const TextProcessor = () => {
     ]);
 
     setInputText(""); // Clear input field
-    setCharCount(0);
+    setCharCount(0); //set character count
   };
 
   // Handle Enter key press
@@ -275,14 +275,15 @@ const TextProcessor = () => {
         {messages.map((message, index) => (
           <div key={index} className="message-output-container">
             <div className="message-output">
-              <p>{message.text}</p>
-              <span className="language">{message.detectedLanguage}</span>
+              <p className="message-text">{message.text}</p>
               <div className="btn-div">
+                <span className="language">{message.detectedLanguage}</span>
+                <span className="translate-to">Translate to :</span>
                 <select
+                  className="language-select"
                   value={targetLanguage}
                   onChange={(e) => setTargetLanguage(e.target.value)}
                 >
-                  <option value="">Select Language</option>
                   {Object.entries(languageMap).map(([code, name]) => (
                     <option key={code} value={code}>
                       {name}
@@ -318,38 +319,42 @@ const TextProcessor = () => {
               )}
             </div>
             {/* first div ends here */}
+
             {/* second begins here */}
-            <div className="output-second-box">
-              <p className="sum-check">
-                {Object.entries(message.translations).map(
-                  ([lang, translation]) => (
-                    <p key={lang}>
-                      <span className="title">
-                        {languageMap[lang] || lang}:
-                      </span>
-                      {translation}
+            {(Object.keys(message.translations).length > 0 ||
+              message.summary) && (
+              <div className="output-second-box">
+                <p>
+                  {Object.entries(message.translations).map(
+                    ([lang, translation]) => (
+                      <p key={lang}>
+                        <span className="title">
+                          {languageMap[lang] || lang}:
+                        </span>
+                        {translation}
+                      </p>
+                    )
+                  )}
+                  {message.summary && (
+                    <p>
+                      <span className="title">Summary:</span>
+                      {message.summary.split("\n").map((line, i) => (
+                        <p key={i}>{line}</p>
+                      ))}
                     </p>
-                  )
-                )}
-                {message.summary && (
-                  <p>
-                    <span className="title">Summary:</span>
-                    {message.summary.split("\n").map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))}
-                  </p>
-                )}
-              </p>
-            </div>
+                  )}
+                </p>
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Error message */}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-
       {/* Input container */}
       <div className="input-container">
+        {/* Error message */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <textarea
           className="message-input"
           value={inputText}
@@ -362,7 +367,7 @@ const TextProcessor = () => {
         <button className="send-btn" onClick={handleProcessText}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="#fff"
+            fill="#001f3f"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="#000"
